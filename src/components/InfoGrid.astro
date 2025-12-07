@@ -1,0 +1,183 @@
+---
+import { getArticles } from "../lib/cms";
+
+const articles = await getArticles();
+
+// Helper to get articles by category
+const getCategoryArticles = (category) =>
+    articles.filter((a) => a.category === category && a.published).slice(0, 3);
+
+const categories = [
+    {
+        id: "banking",
+        title: "Bank Accounts",
+        subtitle: "in Cyprus",
+        image: "/images/banking.png",
+        label: "Banking",
+    },
+    {
+        id: "immigration",
+        title: "Visas & Permits",
+        subtitle: "for Cyprus",
+        image: "/images/visas.png",
+        label: "Immigration",
+    },
+    {
+        id: "housing",
+        title: "Housing",
+        subtitle: "in Cyprus",
+        image: "/images/housing.png",
+        label: "Real Estate",
+    },
+    {
+        id: "taxes",
+        title: "Taxes",
+        subtitle: "in Cyprus",
+        image: "/images/taxes.png",
+        label: "Finance",
+    },
+];
+---
+
+<section class="info-grid-section container">
+    <h2 class="text-center section-title">Essential Information</h2>
+
+    <div class="grid">
+        {
+            categories.map((cat) => (
+                <div class="card">
+                    <div
+                        class="card-header"
+                        style={`background-image: url('${cat.image}');`}
+                    >
+                        <div class="overlay" />
+                        <span class="tag">{cat.label}</span>
+                        <h3>{cat.title}</h3>
+                        <span class="in-cyprus">{cat.subtitle}</span>
+                    </div>
+                    <div class="card-body">
+                        {getCategoryArticles(cat.id).map((article) => (
+                            <a href={`/${article.category}/${article.slug}`}>
+                                {article.title}
+                            </a>
+                        ))}
+                        {getCategoryArticles(cat.id).length === 0 && (
+                            <p class="text-sm text-gray-500">
+                                No articles yet.
+                            </p>
+                        )}
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</section>
+
+<style>
+    .info-grid-section {
+        padding-bottom: 4rem;
+    }
+
+    .section-title {
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        color: #1a202c;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border: 1px solid #e2e8f0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-header {
+        position: relative;
+        height: 160px;
+        background-size: cover;
+        background-position: center;
+        padding: 1.5rem;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.1),
+            rgba(0, 0, 0, 0.6)
+        );
+    }
+
+    .tag,
+    h3,
+    .in-cyprus {
+        position: relative;
+        z-index: 10;
+    }
+
+    .tag {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(4px);
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        line-height: 1.2;
+        margin-bottom: 0.1rem;
+    }
+
+    .in-cyprus {
+        font-size: 0.8rem;
+        opacity: 0.9;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .card-body a {
+        font-size: 0.9rem;
+        color: #009fe3;
+        font-weight: 500;
+    }
+
+    .card-body a:hover {
+        text-decoration: underline;
+    }
+</style>

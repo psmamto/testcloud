@@ -1,0 +1,47 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { getArticles } from "../../lib/cms";
+
+const articles = await getArticles();
+---
+
+<AdminLayout title="Dashboard">
+    <h1>Dashboard</h1>
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Articles</h3>
+            <p class="stat-value">{articles.length}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Products</h3>
+            <p class="stat-value">0</p>
+        </div>
+    </div>
+</AdminLayout>
+
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #2563eb;
+        margin: 0.5rem 0 0;
+    }
+    h3 {
+        color: #6b7280;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+</style>

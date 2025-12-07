@@ -1,0 +1,139 @@
+---
+interface Props {
+    title?: string;
+    subtitle?: string;
+    image?: string;
+}
+
+const {
+    title = "Moving to Cyprus?",
+    subtitle = "Get practical advice from people who made the move.",
+    image = "/images/hero-bg-v3.png",
+} = Astro.props;
+---
+
+<section class="hero" style={`background-image: url('${image}');`}>
+    <div class="hero-overlay"></div>
+    <div class="hero-content container text-center">
+        <h1>{title}</h1>
+        <p class="subtitle">{subtitle}</p>
+        <p class="description">
+            Banking, visas, taxes, and everything you need to know.
+        </p>
+
+        <div class="search-container">
+            <input
+                type="text"
+                placeholder="Search for guides, calculators, and more..."
+            />
+        </div>
+
+        <div class="quick-links flex justify-center">
+            <a href="/banking/personal-accounts" class="quick-link"
+                >Banking in Cyprus</a
+            >
+            <a href="/immigration/work-permits" class="quick-link"
+                >Work permits</a
+            >
+            <a href="/taxes/tax-calculator" class="quick-link"
+                >Salary calculator</a
+            >
+            <a href="/living/cost-of-living" class="quick-link"
+                >Cost of living</a
+            >
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero {
+        position: relative;
+        height: 500px; /* Adjust as needed */
+        display: flex;
+        align-items: center;
+        color: white;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        opacity: 0.95;
+    }
+
+    .description {
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+    }
+
+    .search-container {
+        max-width: 600px;
+        margin: 0 auto 2rem;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        border-radius: 6px;
+        border: none;
+        font-size: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        outline: none;
+    }
+
+    input[type="text"]:focus {
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    }
+
+    .quick-links {
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .quick-link {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(4px);
+        padding: 0.5rem 1.25rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: background 0.2s;
+        color: white;
+    }
+
+    .quick-link:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    @media (max-width: 640px) {
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero {
+            height: auto;
+            padding: 4rem 0;
+        }
+    }
+</style>

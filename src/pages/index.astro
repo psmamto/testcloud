@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import FeatureHighlight from "../components/FeatureHighlight.astro";
+import InfoGrid from "../components/InfoGrid.astro";
+import Footer from "../components/Footer.astro";
+import { getSettings } from "../lib/cms";
+
+const settings = await getSettings();
+const { hero } = settings;
+---
+
+<Layout title="Moving to Cyprus? - HowToCyprus.com">
+	<Header />
+	<main>
+		<Hero title={hero.title} subtitle={hero.subtitle} image={hero.image} />
+		<FeatureHighlight />
+		<InfoGrid />
+	</main>
+	<Footer />
+</Layout>

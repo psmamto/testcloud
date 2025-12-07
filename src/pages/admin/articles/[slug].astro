@@ -1,0 +1,211 @@
+---
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { getArticles } from "../../../lib/cms";
+
+const { slug } = Astro.params;
+const isNew = slug === "new";
+let article = {
+    slug: "",
+    title: "",
+    content: "",
+    category: "banking",
+    seo_title: "",
+    seo_description: "",
+};
+
+if (!isNew) {
+    const articles = await getArticles();
+    const found = articles.find((a) => a.slug === slug);
+    if (found) article = found;
+}
+---
+
+<AdminLayout title={isNew ? "Create Article" : "Edit Article"}>
+    <h1>{isNew ? "Create Article" : "Edit Article"}</h1>
+
+    <form id="articleForm">
+        <div class="form-grid">
+            <div class="main-column">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value={article.title}
+                        required
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Content (HTML Support)</label>
+                    <textarea id="content" name="content" rows="20"
+                        >{article.content}</textarea
+                    >
+                    <p class="hint">
+                        Use HTML tags for formatting. &lt;h2&gt;, &lt;p&gt;,
+                        &lt;ul&gt;, etc.
+                    </p>
+                </div>
+            </div>
+
+            <div class="side-column">
+                <div class="card">
+                    <h3>Metadata</h3>
+                    <div class="form-group">
+                        <label for="slug">Slug</label>
+                        <input
+                            type="text"
+                            id="slug"
+                            name="slug"
+                            value={article.slug}
+                            required
+                            readonly={!isNew}
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category">
+                            <option
+                                value="banking"
+                                selected={article.category === "banking"}
+                                >Banking</option
+                            >
+                            <option
+                                value="immigration"
+                                selected={article.category === "immigration"}
+                                >Immigration</option
+                            >
+                            <option
+                                value="housing"
+                                selected={article.category === "housing"}
+                                >Housing</option
+                            >
+                            <option
+                                value="taxes"
+                                selected={article.category === "taxes"}
+                                >Taxes</option
+                            >
+                            <option
+                                value="living"
+                                selected={article.category === "living"}
+                                >Living</option
+                            >
+                            <option
+                                value="resources"
+                                selected={article.category === "resources"}
+                                >Resources</option
+                            >
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>SEO</h3>
+                    <div class="form-group">
+                        <label for="seo_title">Meta Title</label>
+                        <input
+                            type="text"
+                            id="seo_title"
+                            name="seo_title"
+                            value={article.seo_title}
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="seo_description">Meta Description</label>
+                        <textarea
+                            id="seo_description"
+                            name="seo_description"
+                            rows="4">{article.seo_description}</textarea
+                        >
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary full-width"
+                    >Save Article</button
+                >
+            </div>
+        </div>
+    </form>
+</AdminLayout>
+
+<style>
+    .form-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+    }
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    input,
+    textarea,
+    select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        font-family: inherit;
+    }
+    .hint {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin-top: 0.5rem;
+    }
+    .full-width {
+        width: 100%;
+    }
+    h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    const form = document.getElementById("articleForm");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const res = await fetch("/api/articles", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (res.ok) {
+                alert("Saved successfully!");
+                if (window.location.pathname.includes("/new")) {
+                    window.location.href = `/admin/articles/${data.slug}`;
+                }
+            } else {
+                alert("Error saving article");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error saving article");
+        }
+    });
+</script>

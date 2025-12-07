@@ -1,0 +1,218 @@
+---
+
+---
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="col brand-col">
+                <a href="/" class="logo">
+                    <span class="logo-how">howto</span><span class="logo-cyprus"
+                        >cyprus</span
+                    ><span class="logo-com">.com</span>
+                </a>
+                <p class="brand-desc">
+                    Your comprehensive guide to living, working, and thriving in
+                    Cyprus.
+                </p>
+                <div class="socials">
+                    <!-- Social icons placeholders -->
+                    <div class="icon-ph">F</div>
+                    <div class="icon-ph">T</div>
+                    <div class="icon-ph">I</div>
+                    <div class="icon-ph">M</div>
+                </div>
+            </div>
+
+            <div class="col">
+                <h4>Banking & Finance</h4>
+                <ul>
+                    <li>
+                        <a href="/banking/personal-accounts">Bank Accounts</a>
+                    </li>
+                    <li><a href="/banking/savings">Credit Cards</a></li>
+                    <li>
+                        <a href="/banking/business-accounts">Business Banking</a
+                        >
+                    </li>
+                    <li><a href="/banking/savings">Savings</a></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <h4>Immigration</h4>
+                <ul>
+                    <li>
+                        <a href="/immigration/work-permits">Work Permits</a>
+                    </li>
+                    <li>
+                        <a href="/immigration/residence-permits"
+                            >Residence Permits</a
+                        >
+                    </li>
+                    <li>
+                        <a href="/immigration/digital-nomad"
+                            >Digital Nomad Visa</a
+                        >
+                    </li>
+                    <li>
+                        <a href="/immigration/residence-permits">Citizenship</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <h4>Living in Cyprus</h4>
+                <ul>
+                    <li><a href="/living/cost-of-living">Cost of Living</a></li>
+                    <li><a href="/housing/renting">Housing</a></li>
+                    <li><a href="/living/healthcare">Healthcare</a></li>
+                    <li><a href="/living/education">Education</a></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/taxes/tax-calculator">Calculators</a></li>
+                    <li><a href="/banking/personal-accounts">Guides</a></li>
+                    <li><a href="/resources/community">Blog</a></li>
+                    <li><a href="/resources/community">Community</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom flex justify-between">
+            <p>© 2024 HowToCyprus.com. All rights reserved.</p>
+            <div class="bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer {
+        background-color: #f8fafc;
+        padding-top: 4rem;
+        border-top: 1px solid #edf2f7;
+        font-size: 0.9rem;
+    }
+
+    .footer-top {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 2rem;
+        padding-bottom: 3rem;
+    }
+
+    @media (min-width: 640px) {
+        .footer-top {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (min-width: 1024px) {
+        .footer-top {
+            grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+        }
+    }
+
+    .logo {
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 1rem;
+    }
+    .logo-how {
+        color: #1a202c;
+    }
+    .logo-cyprus {
+        color: #1a202c;
+    }
+    .logo-com {
+        color: #009fe3;
+    }
+
+    .brand-desc {
+        color: #718096;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        max-width: 250px;
+    }
+
+    .socials {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .icon-ph {
+        width: 24px;
+        height: 24px;
+        background: #e2e8f0;
+        color: #718096;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+
+    h4 {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+        color: #1a202c;
+    }
+
+    ul li {
+        margin-bottom: 0.75rem;
+    }
+
+    ul a {
+        color: #718096;
+        transition: color 0.2s;
+    }
+
+    ul a:hover {
+        color: #009fe3;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #edf2f7;
+        padding: 2rem 0;
+        color: #a0aec0;
+        font-size: 0.8rem;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    @media (min-width: 640px) {
+        .footer-bottom {
+            flex-direction: row;
+            text-align: left;
+        }
+    }
+
+    .bottom-links {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+    }
+
+    @media (min-width: 640px) {
+        .bottom-links {
+            justify-content: flex-end;
+        }
+    }
+
+    .bottom-links a {
+        color: inherit;
+    }
+    .bottom-links a:hover {
+        color: #4a5568;
+    }
+</style>

@@ -1,0 +1,95 @@
+---
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { getArticles } from "../../../lib/cms";
+
+const articles = await getArticles();
+---
+
+<AdminLayout title="Articles">
+    <div class="header-actions">
+        <h1>Articles</h1>
+        <a href="/admin/articles/new" class="btn btn-primary"
+            >Create New Article</a
+        >
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Slug</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    articles.map((article) => (
+                        <tr>
+                            <td>{article.title}</td>
+                            <td class="capitalize">{article.category}</td>
+                            <td>{article.slug}</td>
+                            <td>
+                                <a
+                                    href={`/${article.category}/${article.slug}`}
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline"
+                                >
+                                    View
+                                </a>
+                                <a
+                                    href={`/admin/articles/${article.slug}`}
+                                    class="btn btn-sm"
+                                >
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    ))
+                }
+            </tbody>
+        </table>
+    </div>
+</AdminLayout>
+
+<style>
+    .header-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    .table-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th,
+    td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    th {
+        background: #f9fafb;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #374151;
+    }
+    tr:last-child td {
+        border-bottom: none;
+    }
+    .capitalize {
+        text-transform: capitalize;
+    }
+    .btn-sm {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+    }
+</style>

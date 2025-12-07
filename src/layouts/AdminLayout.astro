@@ -1,0 +1,58 @@
+---
+const { title } = Astro.props;
+// Auth check removed per user request
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title} - Admin Dashboard</title>
+        <link rel="stylesheet" href="/styles/global.css" />
+        <style>
+            body {
+                display: flex;
+                min-height: 100vh;
+                background: #f3f4f6;
+            }
+            .sidebar {
+                width: 250px;
+                background: white;
+                border-right: 1px solid #e5e7eb;
+                padding: 2rem;
+            }
+            .main-content {
+                flex: 1;
+                padding: 2rem;
+            }
+            .nav-link {
+                display: block;
+                padding: 0.75rem 0;
+                color: #4b5563;
+                text-decoration: none;
+            }
+            .nav-link:hover {
+                color: #2563eb;
+            }
+            .nav-link.active {
+                color: #2563eb;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <aside class="sidebar">
+            <h2 style="margin-bottom: 2rem;">HowToCyprus Admin</h2>
+            <nav>
+                <a href="/admin" class="nav-link">Dashboard</a>
+                <a href="/admin/articles" class="nav-link">Articles</a>
+                <a href="/admin/settings" class="nav-link">Site Settings</a>
+                <a href="/" class="nav-link" target="_blank">View Site ↗</a>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <slot />
+        </main>
+    </body>
+</html>

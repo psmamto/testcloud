@@ -1,0 +1,136 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { getSettings } from "../../lib/cms";
+
+const settings = await getSettings();
+---
+
+<AdminLayout title="Site Settings">
+    <h1>Site Settings</h1>
+
+    <form id="settingsForm">
+        <div class="form-card">
+            <h3>General</h3>
+            <div class="form-group">
+                <label for="site_title">Site Title</label>
+                <input
+                    type="text"
+                    id="site_title"
+                    name="site_title"
+                    value={settings.site_title}
+                />
+            </div>
+            <div class="form-group">
+                <label for="contact_email">Contact Email</label>
+                <input
+                    type="email"
+                    id="contact_email"
+                    name="contact_email"
+                    value={settings.contact_email}
+                />
+            </div>
+
+            <h3>Hero Section</h3>
+            <div class="form-group">
+                <label for="hero_title">Hero Title</label>
+                <input
+                    type="text"
+                    id="hero_title"
+                    name="hero.title"
+                    value={settings.hero?.title}
+                />
+            </div>
+            <div class="form-group">
+                <label for="hero_subtitle">Hero Subtitle</label>
+                <input
+                    type="text"
+                    id="hero_subtitle"
+                    name="hero.subtitle"
+                    value={settings.hero?.subtitle}
+                />
+            </div>
+            <div class="form-group">
+                <label for="hero_image">Hero Image URL</label>
+                <input
+                    type="text"
+                    id="hero_image"
+                    name="hero.image"
+                    value={settings.hero?.image}
+                />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Settings</button>
+        </div>
+    </form>
+</AdminLayout>
+
+<style>
+    .form-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    h3 {
+        margin-top: 0;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+    }
+</style>
+
+<script>
+    const form = document.getElementById("settingsForm");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Manual object construction for nested keys 'hero.title' etc
+        const formData = new FormData(form);
+        const data = {
+            hero: {},
+        };
+
+        for (let [key, value] of formData.entries()) {
+            if (key.startsWith("hero.")) {
+                data.hero[key.split(".")[1]] = value;
+            } else {
+                data[key] = value;
+            }
+        }
+
+        try {
+            // Reusing article API? No need new endpoint
+            const res = await fetch("/api/settings", {
+                // Need to create this
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (res.ok) {
+                alert("Settings saved!");
+            } else {
+                alert("Error saving settings");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error saving settings");
+        }
+    });
+</script>

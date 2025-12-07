@@ -1,0 +1,134 @@
+---
+export const prerender = false;
+import AdminLayout from "../../../layouts/AdminLayout.astro";
+import { getProducts } from "../../../lib/cms";
+
+const { id } = Astro.params;
+const isNew = id === "new";
+let product = {
+    id: "",
+    name: "",
+    price: "",
+    description: "",
+    image: "",
+    link: "",
+};
+
+if (!isNew) {
+    const products = await getProducts();
+    const found = products.find((p) => p.id === id);
+    if (found) product = found;
+}
+---
+
+<AdminLayout title={isNew ? "New Product" : "Edit Product"}>
+    <h1>{isNew ? "New Product" : "Edit Product"}</h1>
+
+    <form id="productForm">
+        <input type="hidden" name="id" value={product.id} />
+
+        <div class="form-card">
+            <div class="form-group">
+                <label for="name">Product Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={product.name}
+                    required
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price (e.g. €50)</label>
+                <input
+                    type="text"
+                    id="price"
+                    name="price"
+                    value={product.price}
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4"
+                    >{product.description}</textarea
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="image">Image URL</label>
+                <input
+                    type="text"
+                    id="image"
+                    name="image"
+                    value={product.image}
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="link">Affiliate/Product Link</label>
+                <input type="url" id="link" name="link" value={product.link} />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Product</button>
+        </div>
+    </form>
+</AdminLayout>
+
+<style>
+    .form-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+    input,
+    textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+    }
+</style>
+
+<script>
+    const form = document.getElementById("productForm");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+
+        try {
+            const res = await fetch("/api/products", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+            });
+
+            if (res.ok) {
+                const result = await res.json();
+                alert("Product saved!");
+                if (window.location.pathname.includes("/new")) {
+                    window.location.href = `/admin/products/${result.id}`;
+                }
+            } else {
+                alert("Error saving product");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error saving product");
+        }
+    });
+</script>

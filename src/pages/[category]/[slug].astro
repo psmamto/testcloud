@@ -1,0 +1,19 @@
+---
+export const prerender = false;
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { getArticles } from "../../lib/cms";
+
+const { category, slug } = Astro.params;
+const articles = await getArticles();
+const article = articles.find(
+    (a) => a.slug === slug && a.category === category,
+);
+
+if (!article) {
+    return Astro.redirect("/404");
+}
+---
+
+<ArticleLayout title={article.title} category={article.category}>
+    <div set:html={article.content} />
+</ArticleLayout>

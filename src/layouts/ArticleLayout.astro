@@ -1,0 +1,184 @@
+---
+import Layout from "./Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+    title: string;
+    category?: string;
+}
+
+const { title, category } = Astro.props;
+---
+
+<Layout title={`${title} - HowToCyprus.com`}>
+    <Header />
+    <div class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                {
+                    category && (
+                        <>
+                            <span>/</span>{" "}
+                            <span class="capitalize">{category}</span>
+                        </>
+                    )
+                }
+                <span>/</span>
+                <span class="current">{title}</span>
+            </div>
+            <h1>{title}</h1>
+        </div>
+    </div>
+
+    <div class="container page-content-wrapper">
+        <main class="article-content">
+            <slot />
+        </main>
+
+        <aside class="sidebar">
+            <div class="widget">
+                <h3>Popular in {category || "Cyprus"}</h3>
+                <ul>
+                    <li><a href="#">Cost of Living Calculator</a></li>
+                    <li><a href="#">Visa Requirements Check</a></li>
+                    <li><a href="#">Best Cities to Live</a></li>
+                </ul>
+            </div>
+            <div class="widget ad-space">
+                <span>Ad Space / CTA</span>
+            </div>
+        </aside>
+    </div>
+
+    <Footer />
+</Layout>
+
+<style>
+    .page-header {
+        background-color: #f8fafc;
+        padding: 3rem 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .breadcrumb {
+        font-size: 0.9rem;
+        color: #718096;
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .breadcrumb a {
+        color: var(--color-primary);
+        font-weight: 500;
+    }
+
+    .capitalize {
+        text-transform: capitalize;
+    }
+
+    .current {
+        color: #1a202c;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #1a202c;
+    }
+
+    .page-content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        padding-top: 3rem;
+        padding-bottom: 5rem;
+    }
+
+    @media (min-width: 1024px) {
+        .page-content-wrapper {
+            grid-template-columns: 3fr 1fr;
+        }
+    }
+
+    .article-content {
+        font-size: 1.1rem;
+        color: #2d3748;
+        line-height: 1.8;
+    }
+
+    /* Typography for markdown content */
+    .article-content :global(h2) {
+        font-size: 1.75rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        color: #1a202c;
+    }
+
+    .article-content :global(p) {
+        margin-bottom: 1.5rem;
+    }
+
+    .article-content :global(ul) {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        list-style: disc;
+    }
+
+    .article-content :global(li) {
+        margin-bottom: 0.5rem;
+    }
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .widget {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+
+    .widget h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        color: #1a202c;
+    }
+
+    .widget ul li {
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid #edf2f7;
+        padding-bottom: 0.75rem;
+    }
+
+    .widget ul li:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .widget a {
+        color: #4a5568;
+        font-size: 0.95rem;
+        transition: color 0.2s;
+    }
+
+    .widget a:hover {
+        color: var(--color-primary);
+    }
+
+    .ad-space {
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f5f9;
+        color: #94a3b8;
+        font-weight: 500;
+    }
+</style>
